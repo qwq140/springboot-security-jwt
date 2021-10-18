@@ -1,4 +1,4 @@
 package com.cos.blog_jwt.service;
 
-public class BoardSerivce {
+public class ReplyService {
 }
