@@ -1,5 +1,8 @@
 package com.cos.blog_jwt.config;
 
+import com.cos.blog_jwt.config.jwt.JwtAuthenticationFilter;
+import com.cos.blog_jwt.config.jwt.JwtAuthorizationFilter;
+import com.cos.blog_jwt.domain.user.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -16,6 +19,7 @@ import org.springframework.web.filter.CorsFilter;
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final CorsFilter corsFilter;
+    private final UserRepository userRepository;
 
     @Bean
     public BCryptPasswordEncoder encoder(){
@@ -30,6 +34,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .addFilter(corsFilter) // @CrossOrigin은 인증이 필요없는 경우 사용
                 .formLogin().disable() // 폼태그를 이용한 로그인을 사용하지 않음
                 .httpBasic().disable() // Basic 방식 : Authorization에 ID,PW를 담는 방식, Bearer 방식 : Authorization에 token을 담는 방식
+                .addFilter(new JwtAuthenticationFilter(authenticationManager()))
+                .addFilter(new JwtAuthorizationFilter(authenticationManager(),userRepository))
                 .authorizeRequests()
                 .antMatchers("/blog/user/**")
                 .access("hasRole('ROLE_USER') or hasRole('ROLE_MANAGER') or hasRole('ROLE_ADMIN')")
