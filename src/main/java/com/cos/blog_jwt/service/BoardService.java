@@ -2,6 +2,7 @@ package com.cos.blog_jwt.service;
 
 import com.cos.blog_jwt.domain.board.Board;
 import com.cos.blog_jwt.domain.board.BoardRepository;
+import com.cos.blog_jwt.handler.ex.CustomApiException;
 import com.cos.blog_jwt.web.dto.board.BoardReqDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -27,12 +28,16 @@ public class BoardService {
 
     @Transactional(readOnly = true)
     public Board 글상세조회(int id){
-        return boardRepository.findById(id).get();
+        return boardRepository.findById(id).orElseThrow(()->{
+            throw new CustomApiException("해당 글을 찾을 수 없습니다.");
+        });
     }
 
     @Transactional
     public Board 글수정하기(int id, BoardReqDto boardUpdateReqDto){
-        Board boardEntity = boardRepository.findById(id).get();
+        Board boardEntity = boardRepository.findById(id).orElseThrow(()->{
+            throw new CustomApiException("해당 글을 찾을 수 없습니다.");
+        });
 
         boardEntity.setTitle(boardUpdateReqDto.getTitle());
         boardEntity.setContent(boardUpdateReqDto.getContent());
