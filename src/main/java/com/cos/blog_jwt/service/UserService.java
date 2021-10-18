@@ -23,4 +23,10 @@ public class UserService {
         return userRepository.save(user);
     }
 
+    public void 회원정보조회(){}
+
+    public void 회원정보수정(){}
+
+    public void 회원탈퇴(){}
+
 }
