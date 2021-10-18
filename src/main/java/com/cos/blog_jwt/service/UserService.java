@@ -2,10 +2,13 @@ package com.cos.blog_jwt.service;
 
 import com.cos.blog_jwt.domain.user.User;
 import com.cos.blog_jwt.domain.user.UserRepository;
+import com.cos.blog_jwt.web.dto.user.UserUpdateDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -23,10 +26,32 @@ public class UserService {
         return userRepository.save(user);
     }
 
-    public void 회원정보조회(){}
+    @Transactional(readOnly = true)
+    public List<User> 모든회원조회(){
+        return userRepository.findAll();
+    }
 
-    public void 회원정보수정(){}
+    @Transactional(readOnly = true)
+    public User 회원정보조회(int id){
+        return userRepository.findById(id).get();
+    }
 
-    public void 회원탈퇴(){}
+    @Transactional
+    public User 회원정보수정(int id, UserUpdateDto userUpdateDto){
+        User userEntity = userRepository.findById(id).get();
+
+        String rawPassword = userUpdateDto.getPassword();
+        String encPassword = bCryptPasswordEncoder.encode(rawPassword);
+
+        userEntity.setPassword(encPassword);
+        userEntity.setEmail(userUpdateDto.getEmail());
+
+        return userEntity;
+    }
+
+    @Transactional
+    public void 회원탈퇴(int id){
+        userRepository.deleteById(id);
+    }
 
 }
