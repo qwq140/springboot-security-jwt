@@ -5,6 +5,7 @@ import com.cos.blog_jwt.domain.board.BoardRepository;
 import com.cos.blog_jwt.handler.ex.CustomApiException;
 import com.cos.blog_jwt.web.dto.board.BoardReqDto;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -23,7 +24,7 @@ public class BoardService {
 
     @Transactional(readOnly = true)
     public List<Board> 전체조회(){
-        return boardRepository.findAll();
+        return boardRepository.findAll(Sort.by(Sort.Direction.DESC, "id"));
     }
 
     @Transactional(readOnly = true)
