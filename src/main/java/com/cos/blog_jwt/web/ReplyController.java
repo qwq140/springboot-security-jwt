@@ -33,4 +33,10 @@ public class ReplyController {
         replyService.댓글삭제(id);
         return new CMRespDto<>(1,"댓글삭제 성공",null);
     }
+
+    @GetMapping("/blog/reply/{boardId}")
+    public CMRespDto<?> findByBoardId(@PathVariable int boardId){
+        return new CMRespDto<>(1,"댓글리스트 불러오기 성공",replyService.댓글리스트(boardId));
+    }
+
 }
