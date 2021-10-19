@@ -4,7 +4,7 @@ import com.cos.blog_jwt.domain.user.User;
 import lombok.Data;
 
 @Data
-public class JoinDto {
+public class JoinReqDto {
     private String username;
     private String password;
     private String email;

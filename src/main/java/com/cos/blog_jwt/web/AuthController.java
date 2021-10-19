@@ -2,7 +2,7 @@ package com.cos.blog_jwt.web;
 
 import com.cos.blog_jwt.service.UserService;
 import com.cos.blog_jwt.web.dto.CMRespDto;
-import com.cos.blog_jwt.web.dto.auth.JoinDto;
+import com.cos.blog_jwt.web.dto.auth.JoinReqDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -15,7 +15,7 @@ public class AuthController {
     private final UserService userService;
 
     @PostMapping("/join")
-    public CMRespDto<?> join(@RequestBody JoinDto joinDto){
+    public CMRespDto<?> join(@RequestBody JoinReqDto joinDto){
         return new CMRespDto<>(1,"회원가입 성공",userService.회원가입(joinDto.toEntity()));
     }
 

@@ -2,6 +2,7 @@ package com.cos.blog_jwt.domain.reply;
 
 import com.cos.blog_jwt.domain.board.Board;
 import com.cos.blog_jwt.domain.user.User;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -32,9 +33,11 @@ public class Reply {
     @ManyToOne
     private Board board;
 
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm", timezone = "Asia/Seoul")
     @CreationTimestamp
     private LocalDateTime created;
 
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm", timezone = "Asia/Seoul")
     @UpdateTimestamp
     private LocalDateTime updated;
 

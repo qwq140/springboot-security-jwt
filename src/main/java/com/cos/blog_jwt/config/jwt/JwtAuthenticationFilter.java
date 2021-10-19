@@ -4,7 +4,11 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.cos.blog_jwt.config.auth.PrincipalDetails;
 import com.cos.blog_jwt.domain.user.User;
+import com.cos.blog_jwt.util.CustomLocalDateTimeSerializer;
+import com.cos.blog_jwt.web.dto.CMRespDto;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.module.SimpleModule;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -17,6 +21,8 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @RequiredArgsConstructor
@@ -66,6 +72,21 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
                 .withClaim("username", principalDetails.getUser().getUsername())
                 .sign(Algorithm.HMAC512(JwtProperties.SECRET));
 
+        User principal = principalDetails.getUser();
+        principal.setPassword(null);
+
         response.addHeader(JwtProperties.HEADER_STRING, JwtProperties.TOKEN_PREFIX+jwtToken);
+
+        CMRespDto<User> cmRespDto = new CMRespDto<>(1,"로그인 성공",principal);
+
+        ObjectMapper om = new ObjectMapper();
+        SimpleModule simpleModule = new SimpleModule();
+        simpleModule.addSerializer(LocalDateTime.class, new CustomLocalDateTimeSerializer());
+        om.registerModule(simpleModule);
+
+        String cmRespDtoJson = om.writeValueAsString(cmRespDto);
+        PrintWriter out = response.getWriter();
+        out.print(cmRespDtoJson);
+        out.flush();
     }
 }

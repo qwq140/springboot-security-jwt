@@ -3,6 +3,7 @@ package com.cos.blog_jwt.domain.board;
 
 import com.cos.blog_jwt.domain.reply.Reply;
 import com.cos.blog_jwt.domain.user.User;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -42,11 +43,13 @@ public class Board {
     @JsonIgnoreProperties({"board"}) // reply 안에 있는 board를 getter 때리지 마라.
     @OneToMany(mappedBy = "board", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE) //mapppedBy 변수명(reply안에 있는 변수명) fk를 가지지 않는다.
     @OrderBy("id desc")
-    private List<Reply> reply;
+    private List<Reply> replies;
 
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm", timezone = "Asia/Seoul")
     @CreationTimestamp
     private LocalDateTime created;
 
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm", timezone = "Asia/Seoul")
     @UpdateTimestamp
     private LocalDateTime updated;
 

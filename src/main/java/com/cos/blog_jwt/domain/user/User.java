@@ -1,5 +1,6 @@
 package com.cos.blog_jwt.domain.user;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -31,9 +32,11 @@ public class User {
     private String email;
     private String roles;
 
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm", timezone = "Asia/Seoul")
     @CreationTimestamp
     private LocalDateTime created;
 
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm", timezone = "Asia/Seoul")
     @UpdateTimestamp
     private LocalDateTime updated;
 
