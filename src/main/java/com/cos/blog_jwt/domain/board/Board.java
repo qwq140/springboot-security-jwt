@@ -27,10 +27,10 @@ public class Board {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(nullable = false, length = 100)
+    @Column(nullable = false, length = 30)
     private String title;
 
-    @Lob
+    @Column(nullable = false, length = 500)
     private String content;
 
     // EAGER : 당장 가져와 -> 리턴할 때 조인을 하여 데이터를 같이 리턴

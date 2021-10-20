@@ -24,6 +24,8 @@ public class Reply {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+
+    @Column(nullable = false, length = 100)
     private String content;
 
     @JoinColumn(nullable = false, name = "userId")
